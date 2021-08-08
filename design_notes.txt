@@ -1,0 +1,52 @@
+Use Cases:
+==========
+
+Start intake
+    Take first dose of the day
+
+Get Alarm
+    Shows that it's ok to take next dose
+
+Handle Alarm
+    User can either:
+        Take
+        Silence
+        Snooze
+
+Timeout Alarm
+    If user doesn't handle alarm it is considered Snoozed after 3 minutes
+
+Silence alarm
+    Vibration stops but app stays on Alarm screen
+
+Take
+    Alarm stops and app exits
+
+Snooze
+    Alarm is snoozed for increasing number of minutes per press
+    After 1 seconds without press, wakup is scheduled and app exits
+
+
+User Launch:
+    Show next time to take dose
+
+
+Data:
+=====
+
+typedef struct {
+    uint16_t intervalMinutes = 0;
+    WakeupId next_wakeup_id;
+    uint8_t last_hour;
+    uint8_t last_minute;
+} Data
+
+
+Screens:
+========
+
+Settings:
+    Set dose intervall
+        Hour/Minute Ticker
+    Set Last Alarm Time
+        Hour/Minute Ticker
