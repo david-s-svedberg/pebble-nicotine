@@ -8,7 +8,8 @@ enum Setting
 {
     NONE,
     Intervall,
-    LastAlarm
+    LastAlarm,
+    NextAlarm
 };
 
 typedef struct

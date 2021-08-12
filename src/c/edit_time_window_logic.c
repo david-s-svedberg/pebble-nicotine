@@ -30,6 +30,11 @@ static void save_time_and_go_back(ClickRecognizerRef recognizer, void* context)
             data->last_hour = m_hour;
             data->last_minute = m_minute;
             break;
+        case NextAlarm:
+            unschedule_all();
+            time_t t = clock_to_timestamp(TODAY, m_hour, m_minute);
+            schedule_alarm(t);
+            break;
         default:
             APP_LOG(APP_LOG_LEVEL_ERROR, "Unknown Setting");
     }
@@ -164,6 +169,7 @@ void change_to_init_edit_alarm_actions()
 {
     action_bar_layer_set_click_config_provider(m_edit_time_action_bar_layer, edit_alarm_action_bar_click_config_provider);
 
+    action_bar_layer_clear_icon(m_edit_time_action_bar_layer, BUTTON_ID_UP);
     action_bar_layer_set_icon_animated(m_edit_time_action_bar_layer, BUTTON_ID_SELECT, get_edit_icon(), true);
     action_bar_layer_set_icon_animated(m_edit_time_action_bar_layer, BUTTON_ID_DOWN, get_check_icon(), true);
 }
@@ -210,6 +216,17 @@ void set_edit_setting(enum Setting setting_to_edit)
         case LastAlarm:
             m_hour = data->last_hour;
             m_minute = data->last_minute;
+            break;
+        case NextAlarm:
+            m_hour = 0;
+            m_minute = 0;
+            if(has_next_dose_time())
+            {
+                time_t next_wakup_time = get_next_wakup_time();
+                struct tm* local_wakup_time = localtime(&next_wakup_time);
+                m_hour = local_wakup_time->tm_hour;
+                m_minute = local_wakup_time->tm_min;
+            }
             break;
         default:
             APP_LOG(APP_LOG_LEVEL_ERROR, "Unknown Setting");

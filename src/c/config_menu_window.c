@@ -10,7 +10,7 @@ static StatusBarLayer* status_bar;
 
 static SimpleMenuLayer* alarms_menu_layer;
 
-static SimpleMenuItem m_settings_items[2];
+static SimpleMenuItem m_settings_items[3];
 static SimpleMenuSection m_settings_section;
 
 static void update_config_menu(Window* config_window)
@@ -22,7 +22,7 @@ static void update_config_menu(Window* config_window)
 static void setup_alarms_menu_layer(Layer *window_layer, GRect bounds)
 {
     static SimpleMenuSection menu[1];
-    m_settings_section.num_items = 2;
+    m_settings_section.num_items = 3;
     m_settings_section.title = "Settings";
     m_settings_section.items = m_settings_items;
 

@@ -7,20 +7,6 @@
 
 static TextLayer* m_next_dose_layer;
 
-static void fill_next_dose_time(char* buf)
-{
-    if(!has_next_dose_time())
-    {
-        snprintf(buf, 6, "None");
-    } else
-    {
-        uint16_t minutes_until_next_dose = get_minutes_until_next_dose();
-        uint8_t hours = minutes_until_next_dose / MINUTES_PER_HOUR;
-        uint8_t minutes = minutes_until_next_dose % MINUTES_PER_HOUR;
-        fill_time_string(buf, hours, minutes);
-    }
-}
-
 void take_next_dose(ClickRecognizerRef recognizer, void* context)
 {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Take next dose requested");

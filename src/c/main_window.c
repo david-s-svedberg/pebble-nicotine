@@ -32,9 +32,20 @@ static void setup_main_window_action_bar_layer(Layer *window_layer, GRect bounds
     action_bar_layer_set_icon_animated(main_window_action_bar_layer, BUTTON_ID_DOWN, get_config_icon(), true);
 }
 
-static void update_next_alarm_text(Window *window)
+void on_time_tick(struct tm *tick_time, TimeUnits units_changed)
 {
     update_next_dose_time();
+}
+
+static void update_main_window(Window *window)
+{
+    update_next_dose_time();
+    tick_timer_service_subscribe(MINUTE_UNIT, on_time_tick);
+}
+
+static void disable_main_window(Window *window)
+{
+    tick_timer_service_unsubscribe();
 }
 
 static void setup_next_dose_layer(Layer *window_layer, GRect bounds)
@@ -112,7 +123,8 @@ void setup_main_window()
     window_set_window_handlers(main_window, (WindowHandlers) {
         .load = load_main_window,
         .unload = unload_main_window,
-        .appear = update_next_alarm_text
+        .appear = update_main_window,
+        .disappear = disable_main_window
     });
 
     window_stack_push(main_window, true);

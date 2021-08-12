@@ -4,6 +4,46 @@
 
 #include "persistance.h"
 
+static void schedule(Data* data, time_t time)
+{
+    struct tm* local_scheduled_time = localtime(&time);
+    APP_LOG(
+        APP_LOG_LEVEL_DEBUG,
+        "scheduling alarm for '%02d:%02d'",
+        local_scheduled_time->tm_hour,
+        local_scheduled_time->tm_min);
+
+    WakeupId id = -1;
+    do {
+        id = wakeup_schedule(time, 0, true);
+        if(id == E_RANGE)
+        {
+            time += SECONDS_PER_MINUTE / 2;
+        }
+    } while(id == E_RANGE);
+
+    if(id >= 0)
+    {
+        data->next_wakeup_id = id;
+    } else
+    {
+        switch (id)
+        {
+        case E_INVALID_ARGUMENT:
+            APP_LOG(APP_LOG_LEVEL_ERROR, "ERROR: Time is in the past");
+            break;
+        case E_OUT_OF_RESOURCES:
+            APP_LOG(APP_LOG_LEVEL_ERROR, "ERROR: No more wakups for this app");
+            break;
+        case E_INTERNAL:
+            APP_LOG(APP_LOG_LEVEL_ERROR, "ERROR: system error occurred during scheduling");
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 void unschedule_all()
 {
     wakeup_cancel_all();
@@ -18,12 +58,11 @@ void schedule_next_alarm()
     if(wakup_time < latest_alarm)
     {
         APP_LOG(APP_LOG_LEVEL_DEBUG, "scheduling next wakeup");
-        data->next_wakeup_id = wakeup_schedule(wakup_time, 0, true);
+        schedule(data, wakup_time);
     }
 }
 
-void schedule_snooze_alarm(time_t t)
+void schedule_alarm(time_t t)
 {
-    Data* data = get_data();
-    data->next_wakeup_id = wakeup_schedule(t, 0, true);
+    schedule(get_data(), t);
 }

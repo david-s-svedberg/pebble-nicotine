@@ -82,7 +82,7 @@ static void snooze_selection_done(void* data)
 {
     time_t t = time(NULL);
     t += (SECONDS_PER_MINUTE * m_snooze_minutes);
-    schedule_snooze_alarm(t);
+    schedule_alarm(t);
     save_data();
     close_alarm();
 }
@@ -113,7 +113,7 @@ static void handle_back_alarm(ClickRecognizerRef recognizer, void* context)
     APP_LOG(APP_LOG_LEVEL_DEBUG, "back pressed on alarm");
     time_t t = time(NULL);
     t += (SECONDS_PER_MINUTE * 5);
-    schedule_snooze_alarm(t);
+    schedule_alarm(t);
     save_data();
     close_alarm();
 }

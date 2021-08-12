@@ -1,9 +1,9 @@
 {
     "author": "david.s.svedberg@gmail.com",
     "keywords": [],
-    "name": "nicotine",
+    "name": "wean",
     "pebble": {
-        "displayName": "Nicotine",
+        "displayName": "Wean",
         "projectType": "native",
         "resources": {
             "publishedMedia": [

@@ -4,4 +4,4 @@
 
 void unschedule_all();
 void schedule_next_alarm();
-void schedule_snooze_alarm(time_t t);
+void schedule_alarm(time_t t);
