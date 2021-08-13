@@ -43,8 +43,6 @@ void update_config_menu_items(SimpleMenuItem* menu_items)
         snprintf(next_alarm_buf, 6, "None");
     }
 
-
-
     menu_items[0].title = "Intervall";
     menu_items[0].subtitle = intervall_buf;
     menu_items[0].callback = handle_interval_edit;

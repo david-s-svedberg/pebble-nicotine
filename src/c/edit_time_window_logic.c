@@ -24,8 +24,23 @@ static void save_time_and_go_back(ClickRecognizerRef recognizer, void* context)
     switch (m_edit_setting)
     {
         case Intervall:
-            data->intervalMinutes = (m_hour * MINUTES_PER_HOUR) + m_minute;
+        {
+            uint16_t previous_interval = data->intervalMinutes;
+            uint16_t new_interval = (m_hour * MINUTES_PER_HOUR) + m_minute;
+
+            if(has_next_dose_time())
+            {
+                int16_t intervall_diff = new_interval - previous_interval;
+                time_t previous_wakup_time = get_next_wakup_time();
+                time_t new_wakup_time = previous_wakup_time + (intervall_diff * SECONDS_PER_MINUTE);
+                unschedule_all();
+                schedule_alarm(new_wakup_time);
+                save_data();
+            }
+
+            data->intervalMinutes = new_interval;
             break;
+        }
         case LastAlarm:
             data->last_hour = m_hour;
             data->last_minute = m_minute;
