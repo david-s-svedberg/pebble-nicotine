@@ -49,7 +49,7 @@ static void handle_timeout_pressed(int index, void* context)
 static void setup_interval_item()
 {
     m_interval_item.title = "Intervall";
-    m_interval_item.subtitle = get_last_alarm_text();
+    m_interval_item.subtitle = get_interval_text();
     m_interval_item.callback = handle_interval_edit;
     m_interval_item.icon = NULL;
 }
@@ -80,9 +80,16 @@ static void setup_timeout_item()
 
 static void setup_alarms_menu_layer(Layer *window_layer, GRect bounds)
 {
+    setup_interval_item();
     m_settings_items[0] = m_interval_item;
+
+    setup_last_alarm_item();
     m_settings_items[1] = m_last_alarm_item;
+
+    setup_next_alarm_item();
     m_settings_items[2] = m_next_alarm_item;
+
+    setup_timeout_item();
     m_settings_items[3] = m_timeout_item;
 
     m_settings_section.num_items = 4;
