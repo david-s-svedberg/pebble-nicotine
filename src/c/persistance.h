@@ -14,3 +14,6 @@ bool has_next_dose_time();
 bool has_any_data();
 void save_data();
 void fill_next_dose_time(char* buf);
+
+uint8_t get_alarm_timeout();
+void set_alarm_timeout(uint8_t min);

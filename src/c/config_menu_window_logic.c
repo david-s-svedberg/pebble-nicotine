@@ -8,30 +8,60 @@
 #include "icons.h"
 #include "scheduler.h"
 
-static void handle_interval_edit(int index, void* context)
+char* get_timeout_text()
+{
+    static char timeout_buffer[10];
+
+    uint8_t timeout_min = get_alarm_timeout();
+    snprintf(timeout_buffer, 10, "%d minutes", timeout_min);
+
+    return timeout_buffer;
+}
+
+static uint8_t get_next_timeout()
+{
+    uint8_t next = get_alarm_timeout() + 1;
+    if(next > 5)
+    {
+        next = 1;
+    }
+
+    return next;
+}
+
+void handle_timeout_edit()
+{
+    set_alarm_timeout(get_next_timeout());
+}
+
+void handle_interval_edit(int index, void* context)
 {
     setup_edit_time_window(Intervall);
 }
 
-static void handle_last_alarm_edit(int index, void* context)
+void handle_last_alarm_edit(int index, void* context)
 {
     setup_edit_time_window(LastAlarm);
 }
 
-static void handle_next_alarm_edit(int index, void* context)
+void handle_next_alarm_edit(int index, void* context)
 {
     setup_edit_time_window(NextAlarm);
 }
 
-void update_config_menu_items(SimpleMenuItem* menu_items)
+char* get_last_alarm_text()
 {
-    static char intervall_buf[6];
     static char last_alarm_buf[6];
-    static char next_alarm_buf[6];
+
     Data* data = get_data();
-    fill_time_string(intervall_buf, data->intervalMinutes / MINUTES_PER_HOUR, data->intervalMinutes % MINUTES_PER_HOUR);
     fill_time_string(last_alarm_buf, data->last_hour, data->last_minute);
-    fill_time_string(last_alarm_buf, data->last_hour, data->last_minute);
+
+    return last_alarm_buf;
+}
+
+char* get_next_alarm_text()
+{
+   static char next_alarm_buf[6];
 
     if(has_next_dose_time())
     {
@@ -43,18 +73,35 @@ void update_config_menu_items(SimpleMenuItem* menu_items)
         snprintf(next_alarm_buf, 6, "None");
     }
 
-    menu_items[0].title = "Intervall";
-    menu_items[0].subtitle = intervall_buf;
-    menu_items[0].callback = handle_interval_edit;
-    menu_items[0].icon = NULL;
+    return next_alarm_buf;
+}
 
-    menu_items[1].title = "Last Alarm Time";
-    menu_items[1].subtitle = last_alarm_buf;
-    menu_items[1].callback = handle_last_alarm_edit;
-    menu_items[1].icon = NULL;
+char* get_interval_text()
+{
+    static char intervall_buf[6];
 
-    menu_items[2].title = "Next Alarm Time";
-    menu_items[2].subtitle = next_alarm_buf;
-    menu_items[2].callback = handle_next_alarm_edit;
-    menu_items[2].icon = NULL;
+    Data* data = get_data();
+    fill_time_string(intervall_buf, data->intervalMinutes / MINUTES_PER_HOUR, data->intervalMinutes % MINUTES_PER_HOUR);
+
+    return intervall_buf;
+}
+
+void update_interval_item(SimpleMenuItem* interval_item)
+{
+    interval_item->subtitle = get_interval_text();
+}
+
+void update_next_alarm_item(SimpleMenuItem* next_alarm_item)
+{
+    next_alarm_item->subtitle = get_next_alarm_text();
+}
+
+void update_last_alarm_item(SimpleMenuItem* last_alarm_item)
+{
+    last_alarm_item->subtitle = get_last_alarm_text();
+}
+
+void update_timeout_item(SimpleMenuItem* timeout_item)
+{
+    timeout_item->subtitle = get_timeout_text();
 }

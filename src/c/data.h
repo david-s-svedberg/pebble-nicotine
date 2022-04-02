@@ -18,4 +18,5 @@ typedef struct
     WakeupId next_wakeup_id;
     uint8_t last_hour;
     uint8_t last_minute;
+    uint8_t alarm_timeout_min;
 } Data;

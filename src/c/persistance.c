@@ -14,6 +14,7 @@ static void seed_data()
     m_data.intervalMinutes = 60;
     m_data.last_hour = 22;
     m_data.last_minute = 0;
+    m_data.alarm_timeout_min = 1;
 
     persist_write_data(DATA_KEY, &m_data, sizeof(Data));
 }
@@ -78,4 +79,16 @@ void fill_next_dose_time(char* buf)
         uint8_t minutes = minutes_until_next_dose % MINUTES_PER_HOUR;
         fill_time_string(buf, hours, minutes);
     }
+}
+
+uint8_t get_alarm_timeout()
+{
+    return get_data()->alarm_timeout_min;
+}
+
+void set_alarm_timeout(uint8_t min)
+{
+    Data* data = get_data();
+    data->alarm_timeout_min = min;
+    save_data();
 }
