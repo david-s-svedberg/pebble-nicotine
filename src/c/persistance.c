@@ -15,6 +15,7 @@ static void seed_data()
     m_data.last_hour = 22;
     m_data.last_minute = 0;
     m_data.alarm_timeout_min = 1;
+    m_data.data_version = 1;
 
     persist_write_data(DATA_KEY, &m_data, sizeof(Data));
 }

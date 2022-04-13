@@ -1,6 +1,6 @@
-App title               Meds
-Website                 https://github.com/david-s-svedberg/pebble-medicine
-Source code URL         https://github.com/david-s-svedberg/pebble-medicine
+App title               Wean
+Website                 https://github.com/david-s-svedberg/pebble-nicotine
+Source code URL         https://github.com/david-s-svedberg/pebble-nicotine
 Support email address   david.s.svedberg@gmail.com
 Category                Tools & Utilities
 

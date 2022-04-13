@@ -66,3 +66,11 @@ void schedule_alarm(time_t t)
 {
     schedule(get_data(), t);
 }
+
+char* get_next_dose_time_string()
+{
+    static char next_dose_buffer[6];
+    fill_next_dose_time(next_dose_buffer);
+
+    return next_dose_buffer;
+}

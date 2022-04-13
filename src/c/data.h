@@ -19,4 +19,5 @@ typedef struct
     uint8_t last_hour;
     uint8_t last_minute;
     uint8_t alarm_timeout_min;
+    uint8_t data_version;
 } Data;

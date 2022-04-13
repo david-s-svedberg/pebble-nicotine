@@ -28,6 +28,7 @@
     "extensions": [
         "ms-vscode.cpptools",
         "shardulm94.trailing-spaces",
-        "ms-vscode.cpptools-extension-pack"
+        "ms-vscode.cpptools-extension-pack",
+        "Tyriar.luna-paint"
     ]
 }

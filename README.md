@@ -1,8 +1,8 @@
-# Meds
+# Wean/Nocotine
 
 ## App Description
 
-Nicotine is an alarm app for spacing out the intake of nicotine.
+Nicotine is an alarm app for spacing out (and hopefully decreasing) the intake of nicotine or other substances.
 
 ## Build
 
